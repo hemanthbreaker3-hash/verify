@@ -41,7 +41,7 @@ Set these in your hosting provider's environment settings. Never commit real cre
 | `APP_ID` | Yes | Telegram API ID |
 | `API_HASH` | Yes | Telegram API hash |
 | `DATABASE_URL` | Yes | MongoDB connection URI |
-| `CHANNEL_ID` | Recommended | Telegram channel ID used to store/retrieve files |
+| `CHANNEL_ID` | No (optional fallback) | Legacy fallback storage-channel ID. Leave unset if you configure the storage channel through the bot’s database-channel settings. File storage still requires a configured storage channel. |
 | `OWNER_ID` | Recommended | Numeric Telegram owner ID |
 | `SESSION_SECRET_KEY` | Yes for stable production sessions | Long random secret used to sign Flask sessions; keep stable across deploys and instances |
 | `PORT` | No | Web server port; defaults to `8080` |
@@ -127,7 +127,7 @@ For local HTTP only, set `SESSION_COOKIE_SECURE=false`; restore it to `true` in 
 - **Verification says the session was not started:** reopen the original link in the same browser tab and complete the shortlink without switching browsers. Confirm the public callback URL points to this backend.
 - **No shortener can generate a link:** check the configured shortener domain/API key and inspect application logs. The backend intentionally refuses to grant access when no shortener succeeds.
 - **Database unavailable:** verify `DATABASE_URL`, database network access, and provider allowlists.
-- **Bot starts but cannot retrieve files:** verify `CHANNEL_ID` and that the bot is an administrator in the storage channel.
+- **Bot starts but cannot retrieve files:** configure a storage/database channel (either through the bot’s database-channel settings or the optional `CHANNEL_ID` fallback) and make the bot an administrator there.
 - **Imports fail during deployment:** use the supported Python version and install all packages from `requirements.txt`; check the first missing/incompatible package in build logs.
 
 ## Security notes
