@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>⚠️ Access Restricted — AniZoneFlix</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Poppins', sans-serif; background: radial-gradient(circle at top, #2b090a, #090a0f); color: #fff; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+        .card { background: rgba(38, 16, 20, 0.92); backdrop-filter: blur(12px); max-width: 480px; width: 100%; padding: 40px 30px; border-radius: 20px; border: 1px solid rgba(229,9,20,0.3); box-shadow: 0 10px 40px rgba(229,9,20,0.3); text-align: center; }
+        .badge { display: inline-block; background: linear-gradient(135deg, #e50914, #b20710); color: #fff; font-size: 12px; font-weight: 700; padding: 6px 16px; border-radius: 50px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
+        h2 { font-size: 22px; font-weight: 700; margin-bottom: 12px; color: #ff5252; }
+        p { color: #b3b3b3; font-size: 14px; line-height: 1.6; margin-bottom: 20px; }
+        .notice-box { background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.08); text-align: left; }
+        .notice-box ul { list-style: none; color: #d1d5db; font-size: 13px; line-height: 1.8; }
+        .notice-box li::before { content: "• "; color: #ff5252; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <span class="badge">🚫 Security Notice</span>
+        <h2>BYPASS DETECTED</h2>
+        <p>{{ reason or "The required verification/referrer check failed. Access has not been granted." }}</p>
+        <div class="notice-box">
+            <ul>
+                <li>Please use a standard web browser (Chrome, Safari, Firefox, Edge).</li>
+                <li>Complete verification by opening the link from Telegram and following the configured shortener.</li>
+                <li>Try again directly from your Telegram application.</li>
+            </ul>
+        </div>
+        {% if target %}
+        <p style="margin-top:16px;overflow-wrap:anywhere"><strong>Rejected target:</strong> {{ target }}</p>
+        {% endif %}
+        {% if detected_url %}
+        <p style="margin-top:12px"><a rel="nofollow noopener" href="{{ detected_url }}">View signed security event</a></p>
+        {% endif %}
+    </div>
+</body>
+</html>

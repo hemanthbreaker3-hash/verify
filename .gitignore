@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+
+# Environment files may contain deployment secrets
+.env
+**/.env

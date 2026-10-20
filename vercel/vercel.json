@@ -1,0 +1,14 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "version": 2,
+  "rewrites": [
+    { "source": "/", "destination": "/api/proxy?path=" },
+    { "source": "/healthz", "destination": "/api/proxy/healthz" },
+    { "source": "/v/:token*", "destination": "/api/proxy?path=v/:token*" },
+    { "source": "/verify", "destination": "/api/proxy?path=verify" },
+    { "source": "/link/:path*", "destination": "/api/proxy?path=link/:path*" },
+    { "source": "/go_shortener", "destination": "/api/proxy?path=go_shortener" },
+    { "source": "/api/:path*", "destination": "/api/proxy?path=api/:path*" },
+    { "source": "/:path*", "destination": "/api/proxy?path=:path*" }
+  ]
+}

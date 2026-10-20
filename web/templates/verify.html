@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090b14">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Verify access · AniZoneFlix</title>
+  <style>
+    :root{color-scheme:dark;--bg:#090b14;--panel:#121522;--line:#292e42;--muted:#a7adc2;--red:#f1263f;--red2:#a80c24;--cyan:#7cebd3}
+    *{box-sizing:border-box}html{min-height:100%;background:var(--bg)}body{margin:0;min-height:100vh;min-height:100svh;display:grid;place-items:center;padding:20px;font:16px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#f7f8ff;background:radial-gradient(ellipse at 12% 8%,#29204b 0,transparent 38%),radial-gradient(ellipse at 90% 92%,#3a111f 0,transparent 35%),var(--bg)}
+    .wrap{width:min(100%,460px)}.card{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:24px;background:linear-gradient(160deg,#171a2a,#10121d 70%);padding:clamp(22px,6vw,34px);box-shadow:0 24px 75px #0008}.card:before{content:"";position:absolute;inset:0 12% auto;height:2px;background:linear-gradient(90deg,transparent,var(--red),#ff7180,transparent)}
+    .brand{display:flex;align-items:center;justify-content:center;gap:11px;margin:2px 0 25px}.logo{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,var(--red),var(--red2));font-size:21px;box-shadow:0 7px 24px #f1263f35}.brand-name{font-weight:800;letter-spacing:.2px}.brand-sub{font-size:11px;text-transform:uppercase;letter-spacing:1.6px;color:#ff8792}
+    .symbol{display:grid;place-items:center;width:70px;height:70px;margin:0 auto 18px;border-radius:50%;background:#f1263f12;border:1px solid #f1263f44;font-size:30px}h1{text-align:center;font-size:clamp(23px,6vw,29px);line-height:1.2;margin:0 0 10px}.intro{text-align:center;color:var(--muted);font-size:14px;margin:0 auto 24px;max-width:340px}
+    .steps{display:flex;align-items:center;gap:8px;margin:0 0 23px}.step{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:650;color:#888fa6;white-space:nowrap}.num{display:grid;place-items:center;width:25px;height:25px;border:1px solid #3a4056;border-radius:50%;font-size:11px}.step.active{color:#fff}.step.active .num{background:var(--red);border-color:var(--red)}.line{height:1px;flex:1;background:#34394c}
+    .notice{display:flex;gap:12px;padding:14px;border:1px solid #343044;background:#ffffff05;border-radius:14px;margin-bottom:14px}.notice-icon{flex:0 0 34px;height:34px;display:grid;place-items:center;background:#ffc85716;border-radius:10px}.notice strong{display:block;font-size:12px;margin-bottom:3px}.notice p{margin:0;color:var(--muted);font-size:12px;line-height:1.5}.duration{display:flex;justify-content:space-between;gap:12px;padding:13px 14px;border:1px solid #f1263f30;border-radius:12px;background:#f1263f0c;margin-bottom:17px;font-size:12px}.duration span:first-child{color:var(--muted)}.duration strong{color:#ff8b97}
+    .btn{display:block;width:100%;border:0;border-radius:13px;padding:15px 18px;background:linear-gradient(120deg,var(--red),var(--red2));box-shadow:0 9px 25px #f1263f24;color:white;font:inherit;font-weight:750;cursor:pointer;transition:transform .18s,opacity .18s}.btn:hover:not(:disabled){transform:translateY(-1px)}.btn:disabled{opacity:.62;cursor:wait}.status{min-height:20px;margin:12px 0 0;text-align:center;color:#c3c7d5;font-size:12px;overflow-wrap:anywhere}.footer{text-align:center;margin:22px 0 0;color:#777d92;font-size:11px}.footer b{color:#b6bdd1}.noscript{margin-top:12px;color:#ffb4bc;font-size:12px;text-align:center}
+    @media(max-width:360px){body{padding:10px}.card{padding:22px 16px}.step{gap:4px;font-size:10px}.steps{gap:5px}.line{min-width:8px}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+  <main class="wrap"><section class="card" aria-labelledby="page-title">
+    <header class="brand"><div class="logo" aria-hidden="true">▶</div><div><div class="brand-name">AniZoneFlix</div><div class="brand-sub">Secure verification</div></div></header>
+    <div class="symbol" aria-hidden="true">🔐</div>
+    <h1 id="page-title">Verify your access</h1>
+    <p class="intro">Continue through the verification link in this browser tab to unlock your requested files.</p>
+    <div class="steps" aria-label="Verification progress"><div class="step active"><span class="num">1</span>Verify</div><span class="line"></span><div class="step"><span class="num">2</span>Continue</div><span class="line"></span><div class="step"><span class="num">3</span>Access</div></div>
+    <div class="notice"><div class="notice-icon" aria-hidden="true">🌐</div><div><strong>Keep this tab open</strong><p>Use the same browser tab until the shortlink returns here. Switching tabs or browsers may interrupt verification.</p></div></div>
+    <div class="duration"><span>Verification session</span><strong>Limited time · 10 minutes</strong></div>
+    <form id="verify-form" action="/go_shortener" method="get">
+      <input type="hidden" name="token" value="{{ token }}">
+      {% if short_st %}<input type="hidden" name="st" value="{{ short_st }}">{% endif %}
+      <input type="hidden" id="tab-id" name="tab_id" value="">
+      <button id="verify-button" class="btn" type="submit" disabled>Preparing secure session…</button>
+      <p id="session-status" class="status" role="status" aria-live="polite">Starting verification session…</p>
+    </form>
+    <noscript><p class="noscript">JavaScript is required to initialize this verification session. Enable it and reload this page.</p></noscript>
+    <footer class="footer">Protected by <b>AniZoneFlix Security</b></footer>
+  </section></main>
+  <script nonce="{{ csp_nonce }}">
+  (() => {
+    'use strict';
+    const button = document.getElementById('verify-button');
+    const status = document.getElementById('session-status');
+    const tabField = document.getElementById('tab-id');
+    const tokenField = document.querySelector('input[name="token"]');
+    const form = document.getElementById('verify-form');
+    const setError = (message) => { status.textContent = message; button.textContent = 'Retry verification'; button.disabled = true; };
+    async function initialize() {
+      if (!window.crypto || !crypto.getRandomValues || !window.sessionStorage) throw new Error('Secure browser storage unavailable');
+      let tabId = sessionStorage.getItem('filestore_verification_tab_id');
+      if (!tabId || !/^[A-Za-z0-9_-]{20,100}$/.test(tabId)) {
+        const bytes = new Uint8Array(24); crypto.getRandomValues(bytes);
+        tabId = Array.from(bytes, b => b.toString(16).padStart(2, '0')).join('');
+        sessionStorage.setItem('filestore_verification_tab_id', tabId);
+      }
+      tabField.value = tabId;
+      const response = await fetch('/api/register-tab', {
+        method: 'POST', credentials: 'same-origin', cache: 'no-store',
+        headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+        body: JSON.stringify({token: tokenField.value, tab_id: tabId})
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || data.ok !== true) throw new Error(data.error || 'Session registration failed');
+      status.textContent = 'Secure session ready. Continue using this tab.';
+      button.textContent = 'Continue to verification'; button.disabled = false;
+    }
+    form.addEventListener('submit', (event) => {
+      if (button.disabled || !tabField.value) { event.preventDefault(); status.textContent = 'Please wait for the secure session to finish initializing.'; }
+    });
+    initialize().catch((error) => { console.error('Verification initialization failed:', error); setError('Could not initialize the session. Reopen the original link in the same browser and try again.'); });
+  })();
+  </script>
+</body>
+</html>

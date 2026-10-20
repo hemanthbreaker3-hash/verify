@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AniZoneFlix • Verification</title>
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            font-family: "Poppins", sans-serif;
+            color: #fff;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(229, 9, 20, 0.22), transparent 35%),
+                radial-gradient(circle at 85% 80%, rgba(91, 78, 255, 0.18), transparent 35%),
+                #07080d;
+            overflow: hidden;
+        }
+        body::before, body::after {
+            content: ""; position: fixed; width: 260px; height: 260px; border-radius: 50%; filter: blur(80px); opacity: .35; pointer-events: none;
+        }
+        body::before { top: -100px; left: -80px; background: #e50914; }
+        body::after { right: -100px; bottom: -100px; background: #4c5cff; }
+
+        .wrapper { width: 100%; max-width: 470px; position: relative; z-index: 1; }
+        .card {
+            position: relative;
+            padding: 34px 28px 28px;
+            border-radius: 26px;
+            background: rgba(17, 18, 28, .85);
+            border: 1px solid rgba(255,255,255,.10);
+            box-shadow: 0 25px 70px rgba(0,0,0,.55);
+            overflow: hidden;
+        }
+        .top-line {
+            position: absolute; top: 0; left: 12%; width: 76%; height: 2px;
+            background: linear-gradient(90deg, transparent, #e50914, #ff3b3b, transparent);
+            box-shadow: 0 0 18px rgba(229,9,20,.8);
+        }
+        .brand { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 24px; }
+        .brand-icon {
+            width: 38px; height: 38px; display: grid; place-items: center; border-radius: 12px;
+            background: linear-gradient(135deg, #e50914, #9b0710); box-shadow: 0 8px 25px rgba(229,9,20,.35); font-size: 19px;
+        }
+        .brand-name { font-size: 17px; font-weight: 800; letter-spacing: .4px; }
+        .security { color: #ff6068; font-size: 11px; font-weight: 600; letter-spacing: 1.4px; text-transform: uppercase; margin-top: 2px; }
+        .status {
+            width: 72px; height: 72px; margin: 0 auto 20px; display: grid; place-items: center; border-radius: 50%;
+            background: rgba(229,9,20,.10); border: 1px solid rgba(229,9,20,.30);
+            box-shadow: 0 0 0 8px rgba(229,9,20,.04), 0 0 35px rgba(229,9,20,.20); font-size: 30px;
+        }
+        h1 { text-align: center; font-size: 26px; line-height: 1.25; font-weight: 800; margin-bottom: 12px; }
+        .subtitle { max-width: 390px; margin: 0 auto 25px; text-align: center; color: #a7a8b3; font-size: 13.5px; line-height: 1.7; }
+
+        .steps { display: flex; align-items: center; margin: 0 4px 24px; }
+        .step { display: flex; align-items: center; gap: 7px; color: #888995; font-size: 11px; font-weight: 600; white-space: nowrap; }
+        .step.active { color: #fff; }
+        .step-number {
+            width: 24px; height: 24px; display: grid; place-items: center; border-radius: 50%;
+            background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.10); font-size: 11px;
+        }
+        .step.active .step-number { background: #e50914; border-color: #e50914; box-shadow: 0 0 15px rgba(229,9,20,.35); }
+        .connector { flex: 1; height: 1px; margin: 0 8px; background: rgba(255,255,255,.10); }
+
+        .notice {
+            display: flex; gap: 12px; align-items: flex-start; padding: 15px; margin-bottom: 16px; border-radius: 15px;
+            background: rgba(255,255,255,.035); border: 1px solid rgba(255,255,255,.07);
+        }
+        .notice-icon { flex: 0 0 auto; width: 34px; height: 34px; display: grid; place-items: center; border-radius: 10px; background: rgba(255,202,40,.10); color: #ffca28; }
+        .notice-content strong { display: block; margin-bottom: 3px; font-size: 12px; }
+        .notice-content span { color: #92939e; font-size: 11px; line-height: 1.5; }
+
+        .timer { display: flex; align-items: center; justify-content: space-between; padding: 13px 15px; margin-bottom: 16px; border-radius: 14px; background: rgba(229,9,20,.07); border: 1px solid rgba(229,9,20,.16); }
+        .timer-label { color: #aaaab4; font-size: 11px; }
+        .timer-value { color: #ff6269; font-size: 13px; font-weight: 700; }
+
+        .btn {
+            width: 100%; border: 0; border-radius: 15px; padding: 16px 18px; color: #fff;
+            background: linear-gradient(135deg, #ed101b, #b40710);
+            box-shadow: 0 10px 30px rgba(229,9,20,.25); font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer; transition: .25s ease;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 14px 35px rgba(229,9,20,.35); }
+        .footer { margin-top: 20px; text-align: center; color: #666874; font-size: 10px; }
+        .footer b { color: #92939e; }
+        @media (max-width: 480px) {
+            body { padding: 12px; }
+            .card { padding: 26px 18px 22px; border-radius: 18px; }
+            h1 { font-size: 23px; }
+            .status { width: 60px; height: 60px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="card">
+            <div class="top-line"></div>
+            <div class="brand">
+                <div class="brand-icon">▶</div>
+                <div>
+                    <div class="brand-name">AniZoneFlix</div>
+                    <div class="security">Security Verification</div>
+                </div>
+            </div>
+            <div class="status">🔐</div>
+            <h1>Verify Your Access</h1>
+            <p class="subtitle">Click below to confirm your verification and continue to the requested files.</p>
+            <div class="steps">
+                <div class="step active"><div class="step-number">1</div>Verify</div>
+                <div class="connector"></div>
+                <div class="step"><div class="step-number">2</div>Continue</div>
+                <div class="connector"></div>
+                <div class="step"><div class="step-number">3</div>Access</div>
+            </div>
+            <div class="notice">
+                <div class="notice-icon">🌐</div>
+                <div class="notice-content">
+                    <strong>Browser Friendly</strong>
+                    <span>Use any standard web browser (Chrome, Safari, Firefox, Edge) to complete verification.</span>
+                </div>
+            </div>
+            <div class="timer">
+                <span class="timer-label">Session Duration</span>
+                <span class="timer-value">⏱ 10 minutes</span>
+            </div>
+            <form id="verify-form" action="/go_shortener" method="GET">
+                <input type="hidden" name="token" value="{{ token }}">
+                {% if short_st %}<input type="hidden" name="st" value="{{ short_st }}">{% endif %}
+                <input type="hidden" id="tab-id" name="tab_id" value="">
+                <button id="verify-button" type="submit" class="btn" disabled>Preparing secure session…</button>
+                <p id="session-status" role="status" aria-live="polite" style="margin-top:12px;color:#c4c4cc;font-size:13px">Starting verification session…</p>
+            </form>
+            <div class="footer">Protected by <b>AniZoneFlix Security System</b></div>
+        </div>
+    </div>
+    <script>
+    // UI/navigation only: provide tab metadata. Authorization checks run on the backend
+    // after the shortlink callback.
+    (async function () {
+        const button = document.getElementById('verify-button');
+        const status = document.getElementById('session-status');
+        const tabField = document.getElementById('tab-id');
+        const tokenField = document.querySelector('input[name="token"]');
+        try {
+            let tabId = sessionStorage.getItem('filestore_verification_tab_id');
+            if (!tabId || !/^[A-Za-z0-9_-]{20,100}$/.test(tabId)) {
+                const bytes = new Uint8Array(24);
+                crypto.getRandomValues(bytes);
+                tabId = Array.from(bytes, b => b.toString(16).padStart(2, '0')).join('');
+                sessionStorage.setItem('filestore_verification_tab_id', tabId);
+            }
+            tabField.value = tabId;
+            const response = await fetch('/api/register-tab', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({token: tokenField.value, tab_id: tabId})
+            });
+            if (!response.ok) throw new Error('Tab metadata could not be registered');
+            status.textContent = 'Ready. Continue to the shortlink in this tab.';
+            button.textContent = 'Continue to verification';
+            button.disabled = false;
+        } catch (error) {
+            status.textContent = 'Could not initialize this verification page. Reopen the original link and try again.';
+            button.textContent = 'Retry verification';
+            button.disabled = true;
+        }
+    })();
+    </script>
+</body>
+</html>

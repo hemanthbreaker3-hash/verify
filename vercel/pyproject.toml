@@ -1,0 +1,9 @@
+[project]
+name = "filestore-vercel-site"
+version = "1.0.0"
+description = "Vercel website and reverse proxy for the Filestore Render backend"
+requires-python = ">=3.12,<3.13"
+dependencies = ["Flask>=3.0,<4.0", "requests>=2.31,<3.0"]
+
+[tool.vercel]
+entrypoint = "api.proxy:app"
