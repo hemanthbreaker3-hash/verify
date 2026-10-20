@@ -73,9 +73,9 @@ The bot and Flask app share a process in the default deployment. Use one process
 
 ## Optional Vercel frontend
 
-The `vercel/` directory provides a small landing page and path-preserving proxy. Configure these Vercel environment variables:
+The `vercel/` directory provides an optional small landing page and path-preserving proxy. `RENDER_BACKEND_URL` has no hard-coded default; configure it explicitly in Vercel Environment Variables. Configure these values:
 
-- `RENDER_BACKEND_URL`: the HTTPS URL of the Render backend.
+- `RENDER_BACKEND_URL`: required HTTPS URL of the Render backend; left blank in source to avoid forwarding traffic to an unintended service.
 - `TELEGRAM_BOT_USERNAME`: bot username without the leading `@`.
 - `SITE_NAME`: optional website title.
 
@@ -169,3 +169,8 @@ if status.get("verified"):
 
 
 This package includes the same full verification flow as the FileStore build: browser session binding, shortener URL generation, validated callback, timed access grant, and Telegram return deep link. The external bot API is integrated in `main.py` and request validation is handled in `plugins/start.py`.
+
+
+## Clean production package and secrets
+
+This ZIP excludes local test scripts, generated log files, duplicate unused HTML templates, and an unused `OWNER` setting. No Telegram token, API hash, MongoDB URI, session secret, or admin/client API key is embedded in the source. Set credentials only in your hosting provider environment. Rotate any credential that was previously committed or shared.
