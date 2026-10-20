@@ -17,6 +17,11 @@
       "description": "An integer of consisting of your owner ID",
       "value": ""
     },
+    "VERIFY_BOT_USERNAME": {
+      "description": "Optional verification bot username without @ (the live Telegram username is detected automatically)",
+      "value": "",
+      "required": false
+    },
     "APP_ID": {
       "description": "your app id, take it from my.telegram.org",
       "value": ""

@@ -288,6 +288,50 @@ async def panel_callback_handler(client: Bot, query: CallbackQuery):
             await query.answer("Verification ENABLED!")
         return await panel_callback_handler(client, query)
 
+    elif data == "panel_set_api_base_url":
+        await query.answer()
+        current_api_url = await db.get_config_val("API_BASE_URL", "")
+        if not current_api_url:
+            current_api_url = await db.get_config_val("BASE_URL", "")
+        await query.message.edit_text(
+            "<b>🌐 Set API Base URL</b>\n\n"
+            f"<b>Current API Base URL:</b> <code>{current_api_url or 'Not set'}</code>\n\n"
+            "Send the public HTTPS origin of this Verify Bot web service, for example "
+            "<code>https://your-verify-service.onrender.com</code>.\n"
+            "This URL is used by FileStore as the API origin; the API endpoints are "
+            "<code>/api/request</code>, <code>/api/{user_id}</code>, and "
+            "<code>/api/request-status/{user_id}</code>.\n\n"
+            "Send <code>/cancel</code> to abort."
+        )
+        try:
+            answer = await client.listen(query.message.chat.id, timeout=120)
+            value = (answer.text or "").strip()
+            if value.lower() == "/cancel":
+                await answer.reply_text("<b>❌ API Base URL setup cancelled.</b>")
+                return
+            if not value.startswith(("https://", "http://")):
+                value = "https://" + value
+            from urllib.parse import urlsplit
+            parsed = urlsplit(value)
+            if parsed.scheme not in ("https", "http") or not parsed.netloc or parsed.username or parsed.password or parsed.query or parsed.fragment:
+                return await answer.reply_text("<b>❌ Invalid URL.</b> Send a complete public URL such as <code>https://your-verify-service.onrender.com</code> without a query string or fragment.")
+            value = f"{parsed.scheme}://{parsed.netloc}{parsed.path.rstrip('/')}".rstrip("/")
+            saved_api = await db.update_config("API_BASE_URL", value)
+            # Keep the canonical web base URL aligned so verification callbacks and API clients use the same origin.
+            saved_web = await db.update_config("BASE_URL", value)
+            confirmed = await db.get_config_val("API_BASE_URL", None)
+            if not saved_api or not saved_web or confirmed != value:
+                return await answer.reply_text("<b>❌ Could not confirm the API Base URL was saved.</b> Check MongoDB connectivity and retry.")
+            await answer.reply_text(
+                "<b>✅ API Base URL saved.</b>\n\n"
+                f"<b>API Base URL:</b> <code>{value}</code>\n"
+                f"<b>FileStore API value:</b> <code>{value}</code>\n\n"
+                "In FileStore, run <code>/verifyapi</code> and enter this URL, the same client API key if configured, and your Verify Bot username.",
+                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🛡️ Open Panel", callback_data="panel_main", style="primary")]])
+            )
+        except Exception as exc:
+            await query.message.reply_text(f"<b>❌ API Base URL setup failed:</b> <code>{str(exc)[:400]}</code>")
+
     elif data == "panel_set_base_url":
         await query.answer()
         curr_url = await db.get_config_val("BASE_URL", "https://your-render-service.onrender.com")

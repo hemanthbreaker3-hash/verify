@@ -272,6 +272,30 @@ def _verification_api_key_ok():
     return not expected or hmac.compare_digest(expected, supplied)
 
 
+@app.route('/api/info', methods=['GET'])
+def api_service_info():
+    """Public discovery endpoint for FileStore integration setup."""
+    try:
+        cfg = run_async(db.get_config()) or {}
+    except Exception:
+        cfg = {}
+    api_base_url = str(cfg.get("API_BASE_URL") or cfg.get("BASE_URL") or "").strip().rstrip("/")
+    bot_username = str(cfg.get("BOT_USERNAME") or os.environ.get("VERIFY_BOT_USERNAME") or "").strip().lstrip("@")
+    if not re.fullmatch(r"[A-Za-z0-9_]{5,32}", bot_username):
+        bot_username = ""
+    return jsonify({
+        "ok": True,
+        "service": "verification-bot-api",
+        "api_base_url": api_base_url or None,
+        "verify_bot_username": bot_username or None,
+        "endpoints": {
+            "create_request": "/api/request",
+            "verification_status": "/api/{user_id}",
+            "request_status": "/api/request-status/{user_id}?bot_username={bot_username}",
+        },
+    })
+
+
 @app.route('/api/request', methods=['POST'])
 def api_create_verification_request():
     """Register the requesting client bot before it sends a Telegram deep link."""
@@ -294,7 +318,9 @@ def api_create_verification_request():
     if not re.fullmatch(r"[A-Za-z0-9_]{5,32}", bot_username):
         bot_username = ""
     start_link = f"https://t.me/{bot_username}?start=token_{bot_name}" if bot_username else None
-    return jsonify({"ok": True, "user_id": user_id, "bot_username": bot_name, "start_link": start_link, "expires_in": 1800})
+    return jsonify({"ok": True, "user_id": user_id, "bot_username": bot_name,
+                    "verify_bot_username": bot_username or None,
+                    "start_link": start_link, "expires_in": 1800})
 
 
 @app.route('/api/<int:user_id>', methods=['GET'])

@@ -24,6 +24,7 @@ def build_panel_menu():
         [InlineKeyboardButton("⚙️ Core Config", callback_data="panel_core", style="primary"), InlineKeyboardButton("👥 Admin Manager", callback_data="panel_admins", style="primary")],
         [InlineKeyboardButton("🗄️ DB Channels", callback_data="panel_db_channels", style="primary"), InlineKeyboardButton("📢 Force Sub", callback_data="panel_fsub", style="primary")],
         [InlineKeyboardButton("🛡️ Verification", callback_data="panel_verify", style="primary"), InlineKeyboardButton("🧾 Verify Log", callback_data="panel_verify_log", style="primary")],
+        [InlineKeyboardButton("🌐 Set API Base URL", callback_data="panel_set_api_base_url", style="primary")],
         [InlineKeyboardButton("🔗 Shorteners", callback_data="panel_shortener", style="primary")],
         [InlineKeyboardButton("🤖 Clone Bots", callback_data="panel_clones", style="primary"), InlineKeyboardButton("🖼️ Images", callback_data="panel_images", style="primary")],
         [InlineKeyboardButton("🔘 Custom Button", callback_data="panel_custom_btn", style="primary"), InlineKeyboardButton("📊 Statistics", callback_data="panel_stats", style="primary")],
@@ -38,8 +39,13 @@ async def panel_command(client: Client, message: Message):
         if not await check_admin_or_owner(message):
             return
 
+        me = await client.get_me()
+        username = f"@{me.username}" if getattr(me, "username", None) else "<i>Unavailable</i>"
+        bot_link = f"https://t.me/{me.username}" if getattr(me, "username", None) else "Not available"
         text = (
             "<b>✨ ᴀɴɪᴢᴏɴᴇғʟɪx — Control Panel</b>\n"
+            f"<b>🤖 Verify Bot Username:</b> {username}\n"
+            f"<b>🔗 Bot Link:</b> <code>{bot_link}</code>\n\n"
             "<i>Welcome to the centralized management dashboard. Select a module below to configure your bot:</i>"
         )
         await message.reply_text(text, reply_markup=build_panel_menu())

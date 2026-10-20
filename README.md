@@ -77,6 +77,7 @@ The `vercel/` directory provides an optional small landing page and path-preserv
 
 - `RENDER_BACKEND_URL`: required HTTPS URL of the Render backend; left blank in source to avoid forwarding traffic to an unintended service.
 - `TELEGRAM_BOT_USERNAME`: bot username without the leading `@`.
+- `VERIFY_BOT_USERNAME`: optional verification-bot username without `@`; the live Telegram username is stored in the database on startup and is used when available. The `/panel` command displays the live username and bot link.
 - `SITE_NAME`: optional website title.
 
 If the Vercel domain is used for user-facing links, ensure the backend's `BASE_URL` and the generated callback URLs consistently use the intended public domain. Do not mix Render and Vercel origins in the same flow unless the proxy forwards cookies and callback paths correctly.
